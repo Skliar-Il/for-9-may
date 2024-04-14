@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, VARCHAR, Table, Boolean
+from sqlalchemy import Column, Integer, String, VARCHAR, Table, Boolean, ARRAY
 from conect_db import metadata
 
 persons=Table("persons", metadata,
@@ -10,8 +10,8 @@ persons=Table("persons", metadata,
               Column("city", String),
               Column("history", String),
               Column("main_photo", String),
-              Column("photo", VARCHAR),
-              Column("medals", String),
+              Column("photo", ARRAY(String)),
+              Column("medals", ARRAY(String)),
               Column("date_pulished", Integer),
               Column("rank", String),
               Column("role", Boolean)
