@@ -7,10 +7,11 @@ from alembic import context
 
 import sys, os
 
-sys.path.append(os.path.join(sys.path[0][:-7]))
+sys.path.append(os.path.join(sys.path[0][:-7], "src"))
 
-from src.codect_db import metadata as tg_metadata
-from src.config import DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT, DB_USER
+from conect_db import metadata as tg_metadata
+from config import DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT, DB_USER
+from models.table import *
 
 
 config = context.config
