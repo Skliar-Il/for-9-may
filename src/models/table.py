@@ -1,5 +1,10 @@
-from sqlalchemy import Column, Integer, String, VARCHAR, Table, Boolean, ARRAY
+from sqlalchemy import Column, Integer, String, VARCHAR, Table, Boolean, ARRAY, JSON, PickleType, TIMESTAMP
+import datetime, sys, os
+
+sys.path.append(os.path.join(sys.path[0][:-6]))
+
 from conect_db import metadata
+
 
 persons=Table("persons", metadata,
               
@@ -14,7 +19,10 @@ persons=Table("persons", metadata,
               Column("medals", ARRAY(String)),
               Column("date_pulished", Integer),
               Column("rank", String),
-              Column("role", Boolean)
+              Column("role", Boolean),
+              Column("contact_email", String),
+              Column("contact_SNL", String),
+              Column("contact_telegram", String)
               )
 
 admins=Table("admins", metadata,
