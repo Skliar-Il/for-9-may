@@ -25,9 +25,14 @@ persons=Table("persons", metadata,
               Column("contact_telegram", String)
               )
 
-admins=Table("admins", metadata,
+admins = Table("admins", metadata,
              
              Column("id", Integer, primary_key=True),
              Column("login", String),
              Column("password", String)
              )
+
+token = Table("token", metadata,
+              Column("id", Integer, primary_key=True), 
+              Column("token", String)
+              )
