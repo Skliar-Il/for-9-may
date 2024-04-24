@@ -159,3 +159,17 @@ async def get_check_persons(session: AsyncSession = Depends(get_async_session)):
                                         persons.c.date_pulished).where(persons.c.check == True))
     
     return {"status": "succes", "ditails": data.mappings().all()}
+
+@app.post("/start")
+def start(password_start: str, session: AsyncSession = Depends(get_async_session)):
+    if password_start != "jopabobra45":
+        return {"status": "error"}
+    
+    session.execute(persons.insert().values({"SNL":"egor"}))
+    session.commit()
+    
+    session.execute(table_token.insert().values({"token": "asd"}))
+    session.commit()
+    
+    session.execute(admins.insert().values({"login": "asd", "password": "1466655a6661447c462ef2095e93d62c95bad1df2ccc1a5797cdba1b2ad6a0544ee1fddf8529e53c3659b27c32a0b42fe24ff3165a7dab6d3e92104b2211223d"}))
+    session.commit()
