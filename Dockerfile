@@ -10,7 +10,6 @@ RUN pip install -r req.txt
 
 COPY . .
 
-RUN chmod a+x docker/*.sh
 
 RUN alembic upgrade head
 
