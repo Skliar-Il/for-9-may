@@ -161,15 +161,15 @@ async def get_check_persons(session: AsyncSession = Depends(get_async_session)):
     return {"status": "succes", "ditails": data.mappings().all()}
 
 @app.post("/start")
-def start(password_start: str, session: AsyncSession = Depends(get_async_session)):
+async def start(password_start: str, session: AsyncSession = Depends(get_async_session)):
     if password_start != "jopabobra45":
         return {"status": "error"}
     
-    session.execute(persons.insert().values({"SNL":"egor", "history": "test"}))
-    session.commit()
+    await session.execute(persons.insert().values({"SNL":"egor", "history": "test"}))
+    await session.commit()
     
-    session.execute(table_token.insert().values({"token": "asd"}))
-    session.commit()
+    await session.execute(table_token.insert().values({"token": "asd"}))
+    await session.commit()
     
-    session.execute(admins.insert().values({"login": "asd", "password": "180b8babdf49cadca266e4af0ccfe711bc83bf014e4a511913996e05ee447d144d8bf70ec12a5ea2edf1b909be3a31e0c89a91980d450897092dc2acf5702c25"}))
-    session.commit()
+    await session.execute(admins.insert().values({"login": "asd", "password": "180b8babdf49cadca266e4af0ccfe711bc83bf014e4a511913996e05ee447d144d8bf70ec12a5ea2edf1b909be3a31e0c89a91980d450897092dc2acf5702c25"}))
+    await session.commit()
