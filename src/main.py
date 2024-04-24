@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Depends, Query, status
+from fastapi.middleware.cors import CORSMiddleware
 from conect_db import s3
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,6 +23,22 @@ app = FastAPI(
 @app.get("/")
 def title():
     return "For 9 may"
+
+origins = [
+    "https://xn--h1aaedoflgdt.xn--p1ai/",
+    "https://main--sirius9may.netlify.app/",
+    "http://localhost:5173/",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 
 
