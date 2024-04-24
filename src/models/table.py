@@ -15,14 +15,15 @@ persons=Table("persons", metadata,
               Column("city", String),
               Column("history", String),
               Column("main_photo", String),
-              Column("photo", ARRAY(String)),
-              Column("medals", ARRAY(String)),
+              Column("photo", String),
+              Column("medals", String),
               Column("date_pulished", Integer),
               Column("rank", String),
               Column("role", Boolean),
               Column("contact_email", String),
               Column("contact_SNL", String),
-              Column("contact_telegram", String)
+              Column("contact_telegram", String),
+              Column("check", Boolean, default=False)
               )
 
 admins = Table("admins", metadata,
