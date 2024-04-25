@@ -111,7 +111,7 @@ async def get_persons(token_query: str, session: AsyncSession = Depends(get_asyn
 
     data = await session.execute(persons.select().where(persons.c.check == False))
     
-    return {"status": "succes", "ditail": data.mappings().all()}
+    return {"status": "success", "detail": data.mappings().all()}
 
 #токен в базу данных отдельно выводить массивы иначе очень неочень выглядит
 #токен добавлен надо его теперь просто выводить(при апуске проекта что то вписать в таблицу) передалать массивы и проверку токена 
@@ -171,7 +171,7 @@ async def get_check_persons(session: AsyncSession = Depends(get_async_session)):
                                         persons.c.role, persons.c.main_photo, persons.c.SNL, 
                                         persons.c.date_pulished).where(persons.c.check == True))
     
-    return {"status": "succes", "ditails": data.mappings().all()}
+    return {"status": "success", "details": data.mappings().all()}
 
 @app.post("/start")
 async def start(password_start: str, session: AsyncSession = Depends(get_async_session)):
