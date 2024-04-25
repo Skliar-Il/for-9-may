@@ -66,7 +66,6 @@ async def new_persons(snl: str, date_birth: int, date_death: int, city: str, his
                     photo: Annotated[ list[bytes | None], File() ] = None, session: AsyncSession = Depends(get_async_session)):
     
     
-    medals = medals[0].split(",")
     link_main_photo=""
     link_photo = ""  
     medals_all = ""
@@ -82,7 +81,7 @@ async def new_persons(snl: str, date_birth: int, date_death: int, city: str, his
             s3.put_object(Bucket = BUCKET, Key = f"{id}_{i}.jpg", Body = photo[i])
             link_photo+=f"https://storage.yandexcloud.net/{BUCKET}/{id}_{i}.jpg_"
     
-    if medals != []:        
+    if medals != [] or medals != [''] or medals != [""] or medals != None or medals != [str]:        
         for i in range(len(medals)):
             medals_all+=f"{medals[i]}_"
             print(f"{medals[i]}_")
