@@ -129,9 +129,9 @@ async def delet_person(id: int, session: AsyncSession = Depends(get_async_sessio
 
 @app.post("/api/v1/persons")
 async def ckeck_persons(id: int, token_query: str, city: str, date_birth: int, 
-                        date_death: int, history: str, role: bool, main_photo: str, SNL: str, 
-                        date_pulished: int, rank: str, photo: list[str], 
-                        medals: list[str], 
+                        date_death: int, history: str, photo: list[str], 
+                        medals: list[str], role: bool, main_photo: str, SNL: str, 
+                        date_pulished: int, rank: str,  
                         session: AsyncSession = Depends(get_async_session)):
     
     token_fin = (await session.execute(select(table_token.c.token))).all()[0][0]
@@ -151,7 +151,7 @@ async def ckeck_persons(id: int, token_query: str, city: str, date_birth: int,
     await session.execute(persons.update().values({"check": True, "city": city, "date_birth": date_birth, 
                                                    "date_death": date_death, "history": history, "role": role,
                                                    "main_photo": main_photo, "medals": medals[0], "SNL": SNL,
-                                                   "photo": photo_str[:-1], "date_pulished": date_pulished, "rank": rank}).where(persons.c.id == id))
+                                                   "photo": photo[0], "date_pulished": date_pulished, "rank": rank}).where(persons.c.id == id))
     await session.commit()
     
     return await json_status_response()
@@ -168,6 +168,8 @@ async def get_check_persons(session: AsyncSession = Depends(get_async_session)):
                                         persons.c.date_pulished).where(persons.c.check == True))
     
     return {"status": "success", "details": data.mappings().all()}
+
+
 
 @app.post("/start")
 async def start(password_start: str, session: AsyncSession = Depends(get_async_session)):
