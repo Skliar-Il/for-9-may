@@ -118,7 +118,13 @@ async def get_persons(token_query: str, session: AsyncSession = Depends(get_asyn
 
 
 @app.delete("/api/v1/unreadedPersons/{id}")
-async def delet_person(id: int, session: AsyncSession = Depends(get_async_session)):
+async def delet_person(token_query: str, id: int, session: AsyncSession = Depends(get_async_session)):
+    
+    token_fin = (await session.execute(select(table_token.c.token))).all()[0][0]
+
+    if token_query != token_fin:
+        return await json_error_auth_respons("войдите в аккаунт")
+    
     await session.execute(persons.delete().where(persons.c.id == id))
     await session.commit()
     return await json_status_response()
