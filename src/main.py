@@ -24,11 +24,7 @@ app = FastAPI(
 def title():
     return "For 9 may"
 
-origins = [
-    "https://xn--h1aaedoflgdt.xn--p1ai/",
-    "https://main--sirius9may.netlify.app/",
-    "http://localhost:5173/",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,

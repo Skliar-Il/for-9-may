@@ -10,6 +10,7 @@ RUN pip install -r req.txt
 
 COPY . .
 
+RUN alembic upgade head 
 
 WORKDIR src
 
