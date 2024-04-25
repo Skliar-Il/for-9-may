@@ -10,6 +10,7 @@ from sqlalchemy import select, insert
 import json, hashlib, random, string
 from viwes.status import json_status_response, json_status_db_response
 from viwes.error import json_error_auth_respons
+from pydantic import Field
 
 from config import BUCKET
 
@@ -62,8 +63,8 @@ async def login(email: str, password: str, session: AsyncSession = Depends(get_a
 @app.post("/api/v1/unreadedPersons")
 async def new_persons(snl: str, date_birth: int, date_death: int, city: str, history: str, 
                     date_pulished: int, rank: str, role: bool, contact_email: str, 
-                    contact_SNL: str, contact_telegram: str, medals: list[str], main_photo: Annotated[ bytes, File() ],
-                    photo: Annotated[ list[bytes], File() ], session: AsyncSession = Depends(get_async_session)):
+                    contact_SNL: str, contact_telegram: str, medals: list[str],
+                    photo: list[UploadFile] = File(...), main_photo: UploadFile = File(...), session: AsyncSession = Depends(get_async_session)):
     
     
     link_main_photo=""
@@ -73,12 +74,12 @@ async def new_persons(snl: str, date_birth: int, date_death: int, city: str, his
     
     
     if main_photo:
-        s3.put_object(Bucket=BUCKET, Key=f"{id}_main.jpg", Body=main_photo) 
+        s3.put_object(Bucket=BUCKET, Key=f"{id}_main.jpg", Body=main_photo.file) 
         link_photo=f"https://storage.yandexcloud.net/for9may/{id}_main.jpg"
         
     if photo != [b'']:
         for i in range(len(photo)):
-            s3.put_object(Bucket = BUCKET, Key = f"{id}_{i}.jpg", Body = photo[i])
+            s3.put_object(Bucket = BUCKET, Key = f"{id}_{i}.jpg", Body = photo[i].file)
             link_photo+=f"https://storage.yandexcloud.net/{BUCKET}/{id}_{i}.jpg_"
     
     if medals != [] or medals != [''] or medals != [""] or medals != None:        
