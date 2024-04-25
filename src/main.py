@@ -62,8 +62,8 @@ async def login(email: str, password: str, session: AsyncSession = Depends(get_a
 @app.post("/api/v1/unreadedPersons")
 async def new_persons(snl: str, date_birth: int, date_death: int, city: str, history: str, 
                     date_pulished: int, rank: str, role: bool, contact_email: str, 
-                    contact_SNL: str, contact_telegram: str, medals: list[str | None] = None, main_photo: Annotated[ bytes | None, File() ] = None,
-                    photo: Annotated[ list[bytes | None], File() ] = None, session: AsyncSession = Depends(get_async_session)):
+                    contact_SNL: str, contact_telegram: str, medals: list[str], main_photo: Annotated[ bytes, File() ],
+                    photo: Annotated[ list[bytes], File() ], session: AsyncSession = Depends(get_async_session)):
     
     
     link_main_photo=""
