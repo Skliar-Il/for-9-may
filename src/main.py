@@ -75,22 +75,19 @@ async def new_persons(snl: str, date_birth: int, date_death: int, city: str, his
     
     if main_photo:
         s3.put_object(Bucket=BUCKET, Key=f"{id}_main.jpg", Body=main_photo.file) 
-        link_photo=f"https://storage.yandexcloud.net/for9may/{id}_main.jpg"
+        link_main_photo=f"https://storage.yandexcloud.net/for9may/{id}_main.jpg"
         
     if photo != [b'']:
         for i in range(len(photo)):
             s3.put_object(Bucket = BUCKET, Key = f"{id}_{i}.jpg", Body = photo[i].file)
-            link_photo+=f"https://storage.yandexcloud.net/{BUCKET}/{id}_{i}.jpg_"
+            link_photo+=f"https://storage.yandexcloud.net/{BUCKET}/{id}_{i}.jpg,"
     
-    if medals != [] or medals != [''] or medals != [""] or medals != None:        
-        for i in range(len(medals)):
-            medals_all+=f"{medals[i]}_"
-            print(f"{medals[i]}_")
+            
     
     
     await session.execute(persons.insert().values({"SNL":snl, "date_birth":date_birth, "date_death":date_death, 
                                                    "city":city, "history":history, "main_photo":link_main_photo, 
-                                                   "photo":link_photo, "medals":medals_all[:-1], "date_pulished":date_pulished, 
+                                                   "photo":link_photo[:-1], "medals":medals[0], "date_pulished":date_pulished, 
                                                    "rank":rank, "role":role, "contact_email":contact_email, "contact_SNL":contact_SNL, "contact_telegram":contact_telegram}))
     await session.commit()
  
@@ -144,18 +141,17 @@ async def ckeck_persons(id: int, token_query: str, city: str, date_birth: int,
     if token_query != token_fin:
         return await json_error_auth_respons("войдите в аккаунт")
     
-    for i in range(len(medals)):
-        medals_srt += f"{medals[i]}_"
+    
     for i in range(len(photo)):
-        photo_str += f"{photo[i]}_"
+        photo_str += f"{photo[i]},"
     
     
     
     
     await session.execute(persons.update().values({"check": True, "city": city, "date_birth": date_birth, 
                                                    "date_death": date_death, "history": history, "role": role,
-                                                   "main_photo": main_photo, "medals": medals_srt, "SNL": SNL,
-                                                   "photo": photo_str, "date_pulished": date_pulished, "rank": rank}).where(persons.c.id == id))
+                                                   "main_photo": main_photo, "medals": medals[0], "SNL": SNL,
+                                                   "photo": photo_str[:-1], "date_pulished": date_pulished, "rank": rank}).where(persons.c.id == id))
     await session.commit()
     
     return await json_status_response()
