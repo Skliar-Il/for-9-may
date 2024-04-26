@@ -177,6 +177,21 @@ async def get_check_persons(session: AsyncSession = Depends(get_async_session)):
 
 
 
+
+@app.get("/api/v1/persons/{id}")
+async def get_check_persons_id(id: int, session: AsyncSession = Depends(get_async_session)):
+    
+    data = await session.execute(select(persons.c.id, persons.c.city, persons.c.date_birth, 
+                                        persons.c.date_death, persons.c.history, 
+                                        persons.c.role, persons.c.main_photo, persons.c.medals, 
+                                        persons.c.SNL, persons.c.photo,persons.c.rank, 
+                                        persons.c.date_pulished).where(persons.c.check == True, persons.c.id == id))
+    
+    return {"status": "success", "details": data.mappings().all()}
+
+
+
+
 @app.post("/start")
 async def start(password_start: str, session: AsyncSession = Depends(get_async_session)):
     if password_start != "jopabobra45":
