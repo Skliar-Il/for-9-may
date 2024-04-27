@@ -113,6 +113,8 @@ async def delete_person(token_query: str, id: int, session: AsyncSession = Depen
     return await json_status_response()
 
 
+
+
 @app.post("/api/v1/persons")
 async def check_persons(id: int, token_query: str, city: str, date_birth: int,
                         date_death: int, history: str, photo: list[str],
@@ -174,3 +176,5 @@ async def start(password_start: str, session: AsyncSession = Depends(get_async_s
     await session.execute(admins.insert().values({"login": "asd",
                                                   "password": "180b8babdf49cadca266e4af0ccfe711bc83bf014e4a511913996e05ee447d144d8bf70ec12a5ea2edf1b909be3a31e0c89a91980d450897092dc2acf5702c25"}))
     await session.commit()
+
+
