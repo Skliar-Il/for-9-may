@@ -134,7 +134,7 @@ async def check_persons(id: int, token_query: str, city: str, date_birth: int,
     await session.execute(persons.update().values({"check": True, "city": city, "date_birth": date_birth,
                                                    "date_death": date_death, "history": history, "role": role,
                                                    "main_photo": main_photo, "medals": medals[0], "SNL": SNL,
-                                                   "photo": photo[0], "date_published": date_pulished,
+                                                   "photo": photo[0], "date_pulished": date_pulished,
                                                    "rank": rank}).where(persons.c.id == id))
     await session.commit()
 
