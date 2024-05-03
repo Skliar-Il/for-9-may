@@ -66,7 +66,8 @@ async def new_persons(snl: str, date_birth: int, date_death: int, city: str, his
     list_token=(await session.execute(select(persons.c.id))).all()
     for i in list_token:
         if i[0] > id:
-            id = i[0]+1
+            id = i[0]
+    id+=1
 
     if main_photo:
         s3.put_object(Bucket=BUCKET, Key=f"{id}_main.jpg", Body=main_photo.file)
